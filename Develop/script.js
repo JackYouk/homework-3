@@ -1,5 +1,6 @@
-// Assignment Code
-const generateBtn = document.querySelector("#generate");
+
+
+// RANDOM CHARACTER GENERATORS ---------------------------------------------------------------
 
 //array of letters
 const letterArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -16,7 +17,7 @@ function genUp(){
 
   return letter;
 }
-console.log(genUp());
+// console.log(genUp());
 
 // generates random Lowercase character
 function genLow(){
@@ -30,7 +31,7 @@ function genLow(){
 
   return letter;
 }
-console.log(genLow());
+// console.log(genLow());
 
 // generates random Numeric character
 function genNum(){
@@ -39,7 +40,7 @@ function genNum(){
 
   return num;
 }
-console.log(genNum());
+// console.log(genNum());
 
 // array of special characters
 const specialArray = ["!", "@", "#", "$", "%", "^", "&", "*"];
@@ -54,14 +55,15 @@ function genSpec(){
 
   return spec;
 }
-console.log(genSpec());
+// console.log(genSpec());
 
 // generates random password
 function generatePassword() {
+  // USER INPUT ------------------------------------------------------------------------------
   // user input for password length
   let passwordLength = prompt("Please enter a password length of at least 8 characters and no more than 128 characters.");
   // checks if password meets length criteria
-  while (passwordLength < 8 || passwordLength > 128){
+  while (passwordLength < 8 || passwordLength > 128 || !Number.isInteger(parseInt(passwordLength))){
     alert("Please enter a valid password length. Valid password lengths are greater than 8 characters and less than 128 characters.");
     passwordLength = prompt("Please enter a password length of at least 8 characters and no more than 128 characters.");
   }
@@ -80,13 +82,48 @@ function generatePassword() {
     isCharactersSpecial = confirm("Include special characters? (!, @, #, $, %, ^, &, *)");
   }
 
-  // password generator using if and for loops here
+  // PASSWORD GENERATOR -----------------------------------------------------------------------
+  
+  // creates an array of the character types to be used based off user input
+  let characterType = [];
+  if(isCharactersLowercase){
+    characterType.push("lowercase");
+  }
+  if(isCharactersUppercase){
+    characterType.push("uppercase");
+  }
+  if(isCharactersNumeric){
+    characterType.push("numeric");
+  }
+  if(isCharactersSpecial){
+    characterType.push("special");
+  }
+
+  // creates password by adding to a string character by character
   let password = "";
+  for (let i = 0; i < parseInt(passwordLength); i++){
+    let x = genNum();
+    while(x > characterType.length - 1){
+      x = genNum();
+    }
+
+    if(characterType[x] === "lowercase"){
+      password += genLow();
+    }else if(characterType[x] === "uppercase"){
+      password += genUp();
+    }else if(characterType[x] === "numeric"){
+      password += genNum();
+    }else if(characterType[x] === "special"){
+      password += genSpec();
+    }
+  }
   
 
   // returns generated password
   return password;
 }
+
+// PUTS PASSWORD ON SCREEN --------------------------------------------------------------------
 
 // Write password to the #password input
 function writePassword() {
@@ -97,5 +134,8 @@ function writePassword() {
 
 }
 
+// Assignment Code
+const generateBtn = document.querySelector("#generate");
+
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword());
+generateBtn.addEventListener("click", writePassword);
