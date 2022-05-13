@@ -6,40 +6,64 @@ const letterArray = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
 
 // generates random Uppercase character
 function genUp(){
+  let i = Math.random()*100;
+  i = Math.floor(i);
+  while(i > 25){
+    i = Math.random()*100;
+    i = Math.floor(i);
+  }
+  let letter = letterArray[i].toUpperCase();
 
+  return letter;
 }
+console.log(genUp());
 
 // generates random Lowercase character
 function genLow(){
+  let i = Math.random()*100;
+  i = Math.floor(i);
+  while(i > 25){
+    i = Math.random()*100;
+    i = Math.floor(i);
+  }
+  let letter = letterArray[i];
 
+  return letter;
 }
+console.log(genLow());
 
 // generates random Numeric character
 function genNum(){
   let num = Math.random()*10;
-  num = Math.round(num);
+  num = Math.floor(num);
 
   return num;
 }
+console.log(genNum());
 
 // array of special characters
 const specialArray = ["!", "@", "#", "$", "%", "^", "&", "*"];
 
 // generates random special character
 function genSpec(){
-  let spec = specialArray[0];
+  let i = genNum();
+  while(i > 7){
+    i = genNum();
+  }
+  let spec = specialArray[i];
 
   return spec;
 }
+console.log(genSpec());
 
 // generates random password
 function generatePassword() {
   // user input for password length
   let passwordLength = prompt("Please enter a password length of at least 8 characters and no more than 128 characters.");
   // checks if password meets length criteria
-  if (passwordLength < 8 || passwordLength > 128){
+  while (passwordLength < 8 || passwordLength > 128){
     alert("Please enter a valid password length. Valid password lengths are greater than 8 characters and less than 128 characters.");
-    generatePassword();
+    passwordLength = prompt("Please enter a password length of at least 8 characters and no more than 128 characters.");
   }
 
   // user input for character types
@@ -48,9 +72,12 @@ function generatePassword() {
   let isCharactersNumeric = confirm("Include numeric characters?");
   let isCharactersSpecial = confirm("Include special characters? (!, @, #, $, %, ^, &, *)");
   // checks if at least one character type is selected
-  if (!isCharactersLowercase && !isCharactersUppercase && !isCharactersNumeric && !isCharactersSpecial){
+  while (!isCharactersLowercase && !isCharactersUppercase && !isCharactersNumeric && !isCharactersSpecial){
     alert("Please select at least one character type.");
-    generatePassword();
+    isCharactersLowercase = confirm("Include lowercase characters?");
+    isCharactersUppercase = confirm("Include uppercase characters?");
+    isCharactersNumeric = confirm("Include numeric characters?");
+    isCharactersSpecial = confirm("Include special characters? (!, @, #, $, %, ^, &, *)");
   }
 
   // password generator using if and for loops here
